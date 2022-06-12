@@ -1,0 +1,95 @@
+#*GetMyWeather*
+
+##Welcome to *GetMyWeather*
+
+*GetMyWeather* offers an API web you can use to embed 'micro-forecasts' (weather forcasts 
+for a specific location) into an HTML page. *GetMyWeather* is simple to use: programs only 
+need to initialize *GetMyWeather* once per web session. GetMyWeather is supported by all 
+browsers that support Javascript. (**Note:** Users must enable Javascript to use 
+GetMyWeather.)
+
+In the following sections, you will learn information that will help you to use GetMyWeather 
+properly.
+
+###*GetMyWeather* API Key
+
+Before you use *GetMyWeather*, register for an API key at https://www.getmyweather.com. Cost 
+depends on usage. Details are available on the website. (**Note:** A free key is available 
+for application development and testing.)
+
+###*getWeather*
+
+*GetMyWeather* has only one method: *getWeather*. *getWeather* may be called once or 
+multiple times in a session. *getWeather* requires takes four parameters:
+
+* **Location:** Provide this parameter in latitude/longitude (ISO 6709 format).
+
+* **Specificity:** Provide this parameter in meters; *getWeather* accepts values between
+10 and 10,000, inclusive.
+
+* **Time:** Provide this parameter in hours; *getWeather* allows decimals.
+
+* **Key:** Provide your API key. **Note:** GetMyWeather will provide a key to you when you 
+register to use the API.
+
+####Return Package
+
+When you call *getWeather* with proper parameters, *getWeather* returns an HTML snippet
+that corresponds to the parameters you provide: the snippet will include temperature,
+windspeed, chance for rain, and a trust-value. The trust-value indicates the reliability of
+the forecast. Large **Specificity**- and/or **Time**-values decrease reliability. A 
+trust-value of 0-10 indicates the forecast is based on historical averages for the location, 
+not on anticipated weather patterns.
+
+You can process the return package with Javascript or and/or style it with CSS. A sample 
+script is provided below.
+
+#####Inject result into your HTML page:
+```
+<div id="forecast"></div>
+```
+
+#####Initialize *getWeather*:
+```
+<script type="text/javascript">
+var weatherForecast;
+function init() {
+weatherForecast =
+new getWeather(document.getElementById('forecast')}
+</script>
+```
+
+#####Call *getWeather*:
+```
+<script async defer
+src="https://www.getmyweather.com/getWeather?
+key=<YOUR_KEY>&
+callback=init&
+location=<LATITUDE>:<LONGITUDE>&
+specificity=<SPECIFICITY>&
+time=<TIME>">
+</script>
+```
+
+#####Sample return package:
+```
+<div class="forecast">
+<div class="temperature">78</div>
+<div class="windspeed">15</div>
+<div class="chanceRain">30</div>
+<div class="trust">80</div>
+</div>
+```
+
+####Error Conditions
+
+If *getWeather* fails to return a forecast, it will return one of the following error
+strings:
+
+* "Invalid key"
+* "Invalid parameter format"
+* "Parameter out of range"
+* "Server unavailable"
+
+If you believe the *getWeather* failed to return a forecast for a reason not listed above, 
+please inquire at getmyweather@false.com
